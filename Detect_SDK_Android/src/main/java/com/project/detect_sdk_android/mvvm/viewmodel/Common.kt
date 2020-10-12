@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 
 import com.neusoft.basecore.mvvm.model.netsponrity.CommonWare
 import com.project.detect_sdk_android.mvvm.bean.Aa10
+import com.project.detect_sdk_android.mvvm.bean.EquTable
 import com.project.detect_sdk_android.mvvm.bean.Message
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -16,6 +17,8 @@ class Common : ViewModel {
 
 
     private var mutableCheckLiveData: MutableLiveData<Message>
+    private var mStartMessage: MutableLiveData<Message>
+    private var mEndMessage: MutableLiveData<Message>
     private var mutableLoginLiveData: MutableLiveData<Aa10>
     private var ware: CommonWare
 
@@ -30,6 +33,8 @@ class Common : ViewModel {
         ware = CommonWare()
         mutableLoginLiveData = MutableLiveData<Aa10>()
         mutableCheckLiveData = MutableLiveData<Message>()
+        mStartMessage = MutableLiveData<Message>()
+        mEndMessage = MutableLiveData<Message>()
     }
 
     /**
@@ -50,6 +55,7 @@ class Common : ViewModel {
             }
         }
     }
+
     /**
      * @method
      * SDK初始化的结果
@@ -58,12 +64,44 @@ class Common : ViewModel {
         return mutableCheckLiveData;
     }
 
-    fun mLoadCheckEqu(key:String, secret:String, packname:String){
+    fun mLoadCheckEqu(key: String, secret: String, packname: String) {
         GlobalScope.launch {
-            var result = ware.mCheckEqu(key,secret,packname)
-            withContext(Dispatchers.Default){
+            var result = ware.mCheckEqu(key, secret, packname)
+            withContext(Dispatchers.Default) {
                 mutableCheckLiveData.postValue(result)
             }
         }
+    }
+
+    /**
+     * 记录的开始
+     */
+    fun mLoadStart(equTable: EquTable) {
+        GlobalScope.launch {
+            var result = ware.mStart(equTable)
+            withContext(Dispatchers.Default) {
+                mStartMessage.postValue(result)
+            }
+        }
+    }
+
+    fun getStart(): MutableLiveData<Message> {
+        return mStartMessage;
+    }
+
+    /**
+     * 记录的结束
+     */
+    fun mLoadEnd(equTable: EquTable) {
+        GlobalScope.launch {
+            var result = ware.mEnd(equTable)
+            withContext(Dispatchers.Default) {
+                mEndMessage.postValue(result)
+            }
+        }
+    }
+
+    fun getEnd(): MutableLiveData<Message> {
+        return mEndMessage;
     }
 }

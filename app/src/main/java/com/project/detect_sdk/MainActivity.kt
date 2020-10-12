@@ -9,7 +9,12 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
+        //注册信息收集SDK
         CheckEquSDK.open("1","1","1",this);
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        CheckEquSDK.onStop()
     }
 }

@@ -10,5 +10,8 @@ class AppConfig {
           */
          const val BASEURL: String = "http://10.19.92.220:8086/"
          const val CHECKEQU: String = "checkdetect"
+         const val ONSTART: String = "onStart"
+         const val ONEND: String = "onEnd"
+         var RESULTSTATUS=false;
      }
 }
